@@ -7,7 +7,7 @@ package org.lupoi.http_test.controller;/*
 */
 
 import lombok.RequiredArgsConstructor;
-import org.lupoi.http_test.model.User;
+import org.lupoi.http_test.model.UserEntity;
 import org.lupoi.http_test.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,22 +21,22 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public List<User> showAll() {
+    public List<UserEntity> showAll() {
         return userService.getAll();
     }
 
     @GetMapping("{id}")
-    public User showOneById(@PathVariable String id) {
+    public UserEntity showOneById(@PathVariable String id) {
         return userService.getById(id);
     }
 
     @PostMapping
-    public User insert(@RequestBody User user) {
+    public UserEntity insert(@RequestBody UserEntity user) {
         return userService.create(user);
     }
 
     @PutMapping
-    public User edit(@RequestBody User user) {
+    public UserEntity edit(@RequestBody UserEntity user) {
         return userService.update(user);
     }
 

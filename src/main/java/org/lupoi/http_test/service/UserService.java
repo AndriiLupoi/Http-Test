@@ -7,7 +7,7 @@ package org.lupoi.http_test.service;/*
 */
 
 import lombok.RequiredArgsConstructor;
-import org.lupoi.http_test.model.User;
+import org.lupoi.http_test.model.UserEntity;
 import org.lupoi.http_test.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,26 +19,26 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
 
-    private List<User> users = new ArrayList<>();
+    private final List<UserEntity> users = new ArrayList<>();
     {
-        users.add(new User("1", "firstName1", "lastName1","+380123456789"));
-        users.add(new User("2", "firstName2", "lastName2","+380987654321"));
-        users.add(new User("3", "firstName3", "lastName3","+380134275869"));
+        users.add(new UserEntity("1", "firstName1", "lastName1","+380123456789"));
+        users.add(new UserEntity("2", "firstName2", "lastName2","+380987654321"));
+        users.add(new UserEntity("3", "firstName3", "lastName3","+380134275869"));
     }
 
-    public List<User> getAll() {
+    public List<UserEntity> getAll() {
         return userRepository.findAll();
     }
 
-    public User getById(String id) {
+    public UserEntity getById(String id) {
         return userRepository.findById(id).orElse(null);
     }
 
-    public User create(User user) {
+    public UserEntity create(UserEntity user) {
         return userRepository.save(user);
     }
 
-    public  User update(User user) {
+    public UserEntity update(UserEntity user) {
         return userRepository.save(user);
     }
 

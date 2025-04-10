@@ -6,15 +6,17 @@ package org.lupoi.http_test.model;/*
     @since 10.04.2025 - 12.58
 */
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
 @Data
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class User {
+@Entity
+public class UserEntity {
 
     @Id
     private String id;
@@ -22,7 +24,7 @@ public class User {
     private String lastName;
     private String number;
 
-    public User(String id, String firstName, String lastName, String number) {
+    public UserEntity(String id, String firstName, String lastName, String number) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
