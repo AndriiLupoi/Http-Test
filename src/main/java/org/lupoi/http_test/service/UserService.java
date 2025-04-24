@@ -6,6 +6,7 @@ package org.lupoi.http_test.service;/*
     @since 10.04.2025 - 12.59
 */
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.lupoi.http_test.model.UserEntity;
 import org.lupoi.http_test.repository.UserRepository;
@@ -24,6 +25,12 @@ public class UserService {
         users.add(new UserEntity("1", "firstName1", "lastName1","+380123456789"));
         users.add(new UserEntity("2", "firstName2", "lastName2","+380987654321"));
         users.add(new UserEntity("3", "firstName3", "lastName3","+380134275869"));
+    }
+    @PostConstruct
+    void init() {
+        userRepository.deleteAll();
+        userRepository.saveAll(users);
+
     }
 
     public List<UserEntity> getAll() {

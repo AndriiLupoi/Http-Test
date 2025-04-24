@@ -6,16 +6,18 @@ package org.lupoi.http_test.model;/*
     @since 10.04.2025 - 12.58
 */
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@Builder
 @ToString
-@Entity
+@Document
 public class UserEntity {
 
     @Id
@@ -23,11 +25,26 @@ public class UserEntity {
     private String firstName;
     private String lastName;
     private String number;
+    private String description;
 
-    public UserEntity(String id, String firstName, String lastName, String number) {
-        this.id = id;
+    public UserEntity(String firstName, String lastName, String number, String description) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.number = number;
+        this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserEntity user = (UserEntity) o;
+        return getId().equals(user.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
     }
 }
