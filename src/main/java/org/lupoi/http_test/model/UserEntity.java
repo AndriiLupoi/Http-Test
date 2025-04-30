@@ -6,9 +6,12 @@ package org.lupoi.http_test.model;/*
     @since 10.04.2025 - 12.58
 */
 
-import jakarta.persistence.Id;
 import lombok.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -26,6 +29,9 @@ public class UserEntity {
     private String lastName;
     private String number;
     private String description;
+    //---------- custom audit  ----------------
+    private LocalDateTime createDate;
+    private List<LocalDateTime> updateDate;
 
     public UserEntity(String firstName, String lastName, String number, String description) {
         this.firstName = firstName;

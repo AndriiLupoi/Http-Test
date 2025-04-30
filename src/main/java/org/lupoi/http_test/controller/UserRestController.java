@@ -8,6 +8,8 @@ package org.lupoi.http_test.controller;/*
 
 import lombok.RequiredArgsConstructor;
 import org.lupoi.http_test.model.UserEntity;
+import org.lupoi.http_test.request.UserCreateRequest;
+import org.lupoi.http_test.request.UserUpdateRequest;
 import org.lupoi.http_test.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,9 +37,21 @@ public class UserRestController {
         return userService.create(user);
     }
 
+    //============== request =====================
+    @PostMapping("/dto")
+    public UserEntity insert(@RequestBody UserCreateRequest request) {
+        return userService.create(request);
+    }
+
     @PutMapping
     public UserEntity edit(@RequestBody UserEntity user) {
         return userService.update(user);
+    }
+
+    //============== request =====================
+    @PutMapping("/dto")
+    public UserEntity edit(@RequestBody UserUpdateRequest request) {
+        return userService.update(request);
     }
 
     @DeleteMapping("{id}")
