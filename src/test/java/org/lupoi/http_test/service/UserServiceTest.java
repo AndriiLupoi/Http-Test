@@ -43,7 +43,7 @@ public class UserServiceTest {
     @Test
     void whenInsertNewUser_ThenCreateDateIsPresent() {
         //given
-        UserCreateRequest request = new UserCreateRequest("Till","Lindemman", "+380961345725", "poet");
+        UserCreateRequest request = new UserCreateRequest("Till","Lindemman", "+380961345725","26", "poet");
         LocalDateTime now = LocalDateTime.now();
         // when
         UserEntity createdUser = userService.create(request);
@@ -67,7 +67,7 @@ public class UserServiceTest {
     @Test
     void whenCreateUserWithNullDescription_ThenDescriptionShouldBeNull() {
         // given
-        UserCreateRequest request = new UserCreateRequest("John", "Doe", "+380961345725", null);
+        UserCreateRequest request = new UserCreateRequest("John", "Doe", "+380961345725","25", null);
         // when
         UserEntity createdUser = userService.create(request);
         // then
@@ -78,10 +78,10 @@ public class UserServiceTest {
     @Test
     void whenUpdateUser_ThenUpdateDateIsUpdated() {
         // given
-        UserEntity user = new UserEntity("Alice", "Wonder", "+380987654321", "developer");
+        UserEntity user = new UserEntity("Alice", "Wonder", "+380987654321","24", "developer");
         userRepository.save(user);
 
-        UserUpdateRequest request = new UserUpdateRequest(user.getId(), "Alice", "Wonderland", "+380987654322", "developer");
+        UserUpdateRequest request = new UserUpdateRequest(user.getId(), "Alice", "Wonderland", "+380987654322","23", "developer");
 
         // when
         UserEntity updatedUser = userService.update(request);
@@ -100,7 +100,7 @@ public class UserServiceTest {
     @Test
     void whenGetUserById_ThenUserReturned() {
         // given
-        UserEntity user = new UserEntity("Bob", "Marley", "+380134275869", "musician");
+        UserEntity user = new UserEntity("Bob", "Marley", "+380134275869","22", "musician");
         userRepository.save(user);
         // when
         UserEntity foundUser = userService.getById(user.getId());
@@ -122,7 +122,7 @@ public class UserServiceTest {
     @Test
     void whenDeleteUser_ThenUserIsDeleted() {
         // given
-        UserEntity user = new UserEntity("Charlie", "Brown", "+380987654320", "artist");
+        UserEntity user = new UserEntity("Charlie", "Brown", "+380987654320","21", "artist");
         userRepository.save(user);
         // when
         userService.delById(user.getId());
@@ -142,7 +142,7 @@ public class UserServiceTest {
     @Test
     void whenUpdateNonExistentUser_ThenReturnNull() {
         // given
-        UserUpdateRequest updateRequest = new UserUpdateRequest("non-existing-id", "Updated", "Name", "+380961345725", "artist");
+        UserUpdateRequest updateRequest = new UserUpdateRequest("non-existing-id", "Updated", "Name", "+380961345725", "20","artist");
         // when
         UserEntity updatedUser = userService.update(updateRequest);
         // then
@@ -152,7 +152,7 @@ public class UserServiceTest {
     @Test
     void whenCreateUserWithNullFirstName_ThenThrowError() {
         // given
-        UserCreateRequest request = new UserCreateRequest(null, "LastName", "+380961345725", "developer");
+        UserCreateRequest request = new UserCreateRequest(null, "LastName", "+380961345725", "19","developer");
         // when & then
         assertThrows(IllegalArgumentException.class, () -> userService.create(request));
     }
@@ -160,7 +160,7 @@ public class UserServiceTest {
     @Test
     void whenUpdateUserWithNullLastName_ThenThrowError() {
         // given
-        UserUpdateRequest updateRequest = new UserUpdateRequest("existing-id", "Updated", null, "+380961345725", "artist");
+        UserUpdateRequest updateRequest = new UserUpdateRequest("existing-id", "Updated", null, "+380961345725","18", "artist");
         // when & then
         assertThrows(IllegalArgumentException.class, () -> userService.update(updateRequest));
     }
@@ -168,7 +168,7 @@ public class UserServiceTest {
     @Test
     void whenCreateUserWithNullNumber_ThenThrowError() {
         // given
-        UserCreateRequest request = new UserCreateRequest("First", "Last", null, "developer");
+        UserCreateRequest request = new UserCreateRequest("First", "Last", null, "17","developer");
         // when & then
         assertThrows(IllegalArgumentException.class, () -> userService.create(request));
     }
@@ -176,7 +176,7 @@ public class UserServiceTest {
     @Test
     void whenUpdateUserWithInvalidPhoneNumber_ThenThrowError() {
         // given
-        UserUpdateRequest updateRequest = new UserUpdateRequest("existing-id", "Updated", "Name", "invalid-number", "artist");
+        UserUpdateRequest updateRequest = new UserUpdateRequest("existing-id", "Updated", "Name", "invalid-number","16", "artist");
         // when & then
         assertThrows(IllegalArgumentException.class, () -> userService.update(updateRequest));
     }
@@ -184,7 +184,7 @@ public class UserServiceTest {
     @Test
     void whenInsertNewUser_ThenUserExistsInRepository() {
         // given
-        UserCreateRequest request = new UserCreateRequest("John", "Doe", "+380961345725", "developer");
+        UserCreateRequest request = new UserCreateRequest("John", "Doe", "+380961345725", "15","developer");
         // when
         UserEntity createdUser = userService.create(request);
         // then
@@ -195,8 +195,8 @@ public class UserServiceTest {
     @Test
     void whenInsertMultipleUsers_ThenAllUsersAreSaved() {
         // given
-        UserCreateRequest request1 = new UserCreateRequest("Jane", "Doe", "+380961345725", "designer");
-        UserCreateRequest request2 = new UserCreateRequest("Tom", "Smith", "+380961345725", "developer");
+        UserCreateRequest request1 = new UserCreateRequest("Jane", "Doe", "+380961345725", "14","designer");
+        UserCreateRequest request2 = new UserCreateRequest("Tom", "Smith", "+380961345725", "13","developer");
         // when
         userService.create(request1);
         userService.create(request2);
@@ -207,7 +207,7 @@ public class UserServiceTest {
     @Test
     void whenUserIsDeleted_ThenOtherUsersRemainIntact() {
         // given
-        UserEntity user = new UserEntity("Samuel", "Jackson", "+380961345725", "actor");
+        UserEntity user = new UserEntity("Samuel", "Jackson", "+380961345725","12", "actor");
         userRepository.save(user);
         // when
         userService.delById(user.getId());
@@ -218,7 +218,7 @@ public class UserServiceTest {
     @Test
     void whenCreateUserWithInvalidPhoneNumber_ThenThrowError() {
         // given
-        UserCreateRequest request = new UserCreateRequest("Invalid", "User", "123456", "developer");
+        UserCreateRequest request = new UserCreateRequest("Invalid", "User", "123456","11", "developer");
         // when & then
         assertThrows(IllegalArgumentException.class, () -> userService.create(request));
     }
@@ -226,10 +226,10 @@ public class UserServiceTest {
     @Test
     void whenUpdateUser_ThenUserExistsInRepository() {
         // given
-        UserEntity user = new UserEntity("Alice", "Wonder", "+380987654321", "developer");
+        UserEntity user = new UserEntity("Alice", "Wonder", "+380987654321","10", "developer");
         userRepository.save(user);
 
-        UserUpdateRequest updateRequest = new UserUpdateRequest(user.getId(), "Alice", "Wonderland", "+380987654322", "developer");
+        UserUpdateRequest updateRequest = new UserUpdateRequest(user.getId(), "Alice", "Wonderland", "+380987654322","9", "developer");
         // when
         userService.update(updateRequest);
         // then
@@ -239,10 +239,10 @@ public class UserServiceTest {
     @Test
     void whenUpdateUserWithEmptyFirstName_ThenThrowError() {
         // given
-        UserEntity user = new UserEntity("John", "Doe", "+380961345725", "developer");
+        UserEntity user = new UserEntity("John", "Doe", "+380961345725","8", "developer");
         userRepository.save(user);
 
-        UserUpdateRequest updateRequest = new UserUpdateRequest(user.getId(), "", "Doe", "+380961345725", "developer");
+        UserUpdateRequest updateRequest = new UserUpdateRequest(user.getId(), "", "Doe", "+380961345725","7", "developer");
         // when & then
         assertThrows(IllegalArgumentException.class, () -> userService.update(updateRequest));
     }
@@ -250,7 +250,7 @@ public class UserServiceTest {
     @Test
     void whenCreateUserWithValidPhoneNumber_ThenUserIsCreated() {
         // given
-        UserCreateRequest request = new UserCreateRequest("James", "Bond", "+380961234567", "spy");
+        UserCreateRequest request = new UserCreateRequest("James", "Bond", "+380961234567","6", "spy");
         // when
         UserEntity createdUser = userService.create(request);
         // then
@@ -261,10 +261,10 @@ public class UserServiceTest {
     @Test
     void whenUpdateUserWithEmptyPhoneNumber_ThenThrowError() {
         // given
-        UserEntity user = new UserEntity("James", "Bond", "+380961234567", "spy");
+        UserEntity user = new UserEntity("James", "Bond", "+380961234567","5", "spy");
         userRepository.save(user);
 
-        UserUpdateRequest updateRequest = new UserUpdateRequest(user.getId(), "James", "Bond", "", "spy");
+        UserUpdateRequest updateRequest = new UserUpdateRequest(user.getId(), "James", "Bond", "", "4","spy");
         // when & then
         assertThrows(IllegalArgumentException.class, () -> userService.update(updateRequest));
 

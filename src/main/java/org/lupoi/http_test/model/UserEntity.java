@@ -28,15 +28,17 @@ public class UserEntity {
     private String firstName;
     private String lastName;
     private String number;
+    private String code;
     private String description;
     //---------- custom audit  ----------------
     private LocalDateTime createDate;
     private List<LocalDateTime> updateDate;
 
-    public UserEntity(String firstName, String lastName, String number, String description) {
+    public UserEntity(String firstName, String lastName, String number, String code, String description) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.number = number;
+        this.code = code;
         this.description = description;
     }
 

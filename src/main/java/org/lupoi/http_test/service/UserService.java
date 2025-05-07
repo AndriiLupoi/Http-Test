@@ -25,9 +25,9 @@ public class UserService {
 
     private final List<UserEntity> users = new ArrayList<>();
     {
-        users.add(new UserEntity("1", "firstName1", "lastName1","+380961345725"));
-        users.add(new UserEntity("2", "firstName2", "lastName2","+380961345725"));
-        users.add(new UserEntity("3", "firstName3", "lastName3","+380961345725"));
+        users.add(new UserEntity("1", "firstName1", "lastName1", "1","+380961345725"));
+        users.add(new UserEntity("2", "firstName2", "lastName2", "2","+380961345725"));
+        users.add(new UserEntity("3", "firstName3", "lastName3", "3","+380961345725"));
     }
 
     @PostConstruct
@@ -50,13 +50,15 @@ public class UserService {
 
     public UserEntity create(UserCreateRequest request) {
 
+        if (userRepository.existsByCode(request.code())){
+            throw new IllegalArgumentException("Cannot create user with duplicate code");
+        }
+
         if (request.firstName() == null || request.firstName().isEmpty()) {
             throw new IllegalArgumentException("First name cannot be empty");
-        }
-        if (request.lastName() == null || request.lastName().isEmpty()) {
+        } else if (request.lastName() == null || request.lastName().isEmpty()) {
             throw new IllegalArgumentException("Last name cannot be empty");
-        }
-        if (request.number() == null || !request.number().matches("^\\+380\\d{9}$")) {
+        } else if (request.number() == null || !request.number().matches("^\\+380\\d{9}$")) {
             throw new IllegalArgumentException("Invalid phone number");
         }
 
@@ -73,16 +75,18 @@ public class UserService {
     public UserEntity update(UserUpdateRequest request) {
         if (request.firstName() == null || request.firstName().isEmpty()) {
             throw new IllegalArgumentException("First name cannot be empty");
-        }
-        if (request.lastName() == null || request.lastName().isEmpty()) {
+        } else if (request.lastName() == null || request.lastName().isEmpty()) {
             throw new IllegalArgumentException("Last name cannot be empty");
-        }
-        if (request.number() == null || !request.number().matches("^\\+380\\d{9}$")) {
+        } else if (request.number() == null || !request.number().matches("^\\+380\\d{9}$")) {
             throw new IllegalArgumentException("Invalid phone number");
         }
 
         UserEntity userPersisted = userRepository.findById(request.id()).orElse(null);
         if (userPersisted != null) {
+            if (!userPersisted.getCode().equals(request.code()) && userRepository.existsByCode(request.code())) {
+                throw new IllegalArgumentException("Cannot update user with duplicate code");
+            }
+
             List<LocalDateTime> updateDates = userPersisted.getUpdateDate();
 
             // Ensure updateDates is not null before adding to it
@@ -100,6 +104,7 @@ public class UserService {
                     .description(request.description())
                     .createDate(userPersisted.getCreateDate())
                     .updateDate(updateDates)
+                    .code(request.code())
                     .build();
 
             return userRepository.save(userToUpdate);
@@ -113,6 +118,6 @@ public class UserService {
     }
 
     private UserEntity mapToUser(UserCreateRequest request) {
-        return new UserEntity(request.firstName(), request.lastName(), request.number(), request.description());
+        return new UserEntity(request.firstName(), request.lastName(), request.number(), request.code(), request.description());
     }
 }

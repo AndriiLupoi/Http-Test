@@ -28,9 +28,9 @@ public class RepositoryTest {
 
     @BeforeEach
     void setUp() {
-        userRepository.save(new UserEntity("admin", "admin", "123456789", "###test"));
-        userRepository.save(new UserEntity("user", "user", "987654321", "###test"));
-        userRepository.save(new UserEntity("user2", "user2", "132534767", "###test"));
+        userRepository.save(new UserEntity("admin", "admin", "123456789", "Queen","###test"));
+        userRepository.save(new UserEntity("user", "user", "987654321","user", "###test"));
+        userRepository.save(new UserEntity("user2", "user2", "132534767","user2", "###test"));
     }
 
     @AfterEach
@@ -44,7 +44,7 @@ public class RepositoryTest {
     @Test
     void shouldGiveIdForNewRecord() {
         // Given
-        UserEntity user = new UserEntity("admin", "admin", "123456789", "###test");
+        UserEntity user = new UserEntity("admin", "admin", "123456789","admin", "###test");
 
         // When
         userRepository.save(user);
@@ -62,7 +62,7 @@ public class RepositoryTest {
     @Test
     void shouldFindUserById() {
         // Given
-        UserEntity user = new UserEntity("Jane", "Doe", "222222222", "###test");
+        UserEntity user = new UserEntity("Jane", "Doe", "222222222","Jane" , "###test");
         UserEntity saved = userRepository.save(user);
 
         // When
@@ -76,7 +76,7 @@ public class RepositoryTest {
     @Test
     void shouldUpdateUser() {
         // Given
-        UserEntity user = new UserEntity("Alex", "Smith", "333333333", "###test");
+        UserEntity user = new UserEntity("Alex", "Smith", "333333333", "Alex", "###test");
         UserEntity saved = userRepository.save(user);
 
         // When
@@ -92,7 +92,7 @@ public class RepositoryTest {
     @Test
     void shouldDeleteUser() {
         // Given
-        UserEntity user = new UserEntity("Mike", "Taylor", "444444444", "###test");
+        UserEntity user = new UserEntity("Mike", "Taylor", "444444444", "Mike", "###test");
         UserEntity saved = userRepository.save(user);
 
         // When
@@ -133,8 +133,8 @@ public class RepositoryTest {
     void shouldSaveMultipleUsers() {
         // Given
         List<UserEntity> users = List.of(
-                new UserEntity("Tom", "Jerry", "555", "###test"),
-                new UserEntity("Spike", "Dog", "666", "###test")
+                new UserEntity("Tom", "Jerry", "555","Tom", "###test"),
+                new UserEntity("Spike", "Dog", "666", "Spike", "###test")
         );
 
         // When
@@ -150,8 +150,8 @@ public class RepositoryTest {
     @Test
     void shouldAssignDifferentIdsToUsers() {
         // Given
-        UserEntity user1 = new UserEntity("U1", "Last1", "777", "###test");
-        UserEntity user2 = new UserEntity("U2", "Last2", "888", "###test");
+        UserEntity user1 = new UserEntity("U1", "Last1", "777","U1", "###test");
+        UserEntity user2 = new UserEntity("U2", "Last2", "888","U2", "###test");
 
         // When
         UserEntity saved1 = userRepository.save(user1);
@@ -166,7 +166,7 @@ public class RepositoryTest {
     @Test
     void shouldFindUserByFirstName() {
         // Given
-        UserEntity user = new UserEntity("Custom", "Field", "999", "###test");
+        UserEntity user = new UserEntity("Custom", "Field", "999","Custom", "###test");
         userRepository.save(user);
 
         // When

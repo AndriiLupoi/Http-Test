@@ -6,5 +6,5 @@ package org.lupoi.http_test.request;/*
     @since 30.04.2025 - 22.16
 */
 
-public record UserUpdateRequest (String id, String firstName, String lastName, String number, String description){
+public record UserUpdateRequest (String id, String firstName, String lastName, String number, String code, String description){
 }
