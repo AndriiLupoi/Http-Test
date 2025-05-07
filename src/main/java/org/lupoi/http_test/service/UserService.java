@@ -17,13 +17,14 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
 
-    private final List<UserEntity> users = new ArrayList<>();
+    private List<UserEntity> users = new ArrayList<>();
     {
         users.add(new UserEntity("1", "firstName1", "lastName1", "1","+380961345725"));
         users.add(new UserEntity("2", "firstName2", "lastName2", "2","+380961345725"));
@@ -41,8 +42,10 @@ public class UserService {
     }
 
     public UserEntity getById(String id) {
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("User with ID " + id + " not found"));
     }
+
 
     public UserEntity create(UserEntity user) {
         return userRepository.save(user);
@@ -81,7 +84,9 @@ public class UserService {
             throw new IllegalArgumentException("Invalid phone number");
         }
 
-        UserEntity userPersisted = userRepository.findById(request.id()).orElse(null);
+        UserEntity userPersisted = userRepository.findById(request.id())
+                .orElseThrow(() -> new NoSuchElementException("User with ID " + request.id() + " not found"));
+
         if (userPersisted != null) {
             if (!userPersisted.getCode().equals(request.code()) && userRepository.existsByCode(request.code())) {
                 throw new IllegalArgumentException("Cannot update user with duplicate code");
@@ -114,8 +119,12 @@ public class UserService {
 
 
     public void delById(String id) {
+        if (!userRepository.existsById(id)) {
+            throw new NoSuchElementException("User with ID " + id + " not found");
+        }
         userRepository.deleteById(id);
     }
+
 
     private UserEntity mapToUser(UserCreateRequest request) {
         return new UserEntity(request.firstName(), request.lastName(), request.number(), request.code(), request.description());
